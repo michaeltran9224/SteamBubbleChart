@@ -1,0 +1,16 @@
+.env
+.flaskenv
+
+__pycache__/
+*.pyc
+
+*.log
+
+venv/
+env/
+
+.vscode/
+.idea/
+
+*.docker
+docker-compose.yml
