@@ -13,10 +13,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the application code into the container
 COPY . .
 
-# Set environment variables for Flask
-ENV FLASK_APP=hello.py
-ENV FLASK_ENV=development
-
 # Expose the port the app runs on (5000 by default)
 EXPOSE 5000
 
