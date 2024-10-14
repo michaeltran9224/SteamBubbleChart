@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  backend:
+    build: .
+    container_name: backend
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/usr/src/app
+    env_file:
+      - .env # Load environment variables from the .env file
+      - .flaskenv
+    command: flask run --host=0.0.0.0 --reload --debug
