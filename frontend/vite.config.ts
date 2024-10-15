@@ -5,13 +5,26 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   preview: {
+    proxy: { "/steam":   {
+        target: "http://127.0.0.1:5000/",
+        changeOrigin: true,
+        secure: false,
+        ws: true,
+      }
+    },
     port: 3000,
     strictPort: true,
    },
    server: {
+    proxy: { "/steam":   {
+        target: "http://localhost:5000/",
+        changeOrigin: true,
+        secure: false,
+        ws: true,
+      }
+    },
     port: 3000,
     strictPort: true,
     host: true,
-    // origin: "http://0.0.0.0:3000", for some reason, this causes images to not load because of [[Failed to load resource: net::ERR_ADDRESS_INVALID]]
    },
 })
