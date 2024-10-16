@@ -2,7 +2,7 @@
 FROM node:20.18.0-alpine3.20
 
 # Set the working directory in the container
-WORKDIR /app
+WORKDIR /opt/app
 
 # Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 3000
 
 # Start your React app
-CMD [ "npm", "run", "preview" ]
+CMD [ "npm", "run", "dev" ]

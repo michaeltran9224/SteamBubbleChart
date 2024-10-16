@@ -6,10 +6,9 @@ export default defineConfig({
   plugins: [react()],
   preview: {
     proxy: { "/steam":   {
-        target: "http://127.0.0.1:5000/",
+        target: "http://backend:5000/",
         changeOrigin: true,
         secure: false,
-        ws: true,
       }
     },
     port: 3000,
@@ -17,10 +16,9 @@ export default defineConfig({
    },
    server: {
     proxy: { "/steam":   {
-        target: "http://localhost:5000/",
+        target: "http://backend:5000/",
         changeOrigin: true,
         secure: false,
-        ws: true,
       }
     },
     port: 3000,
