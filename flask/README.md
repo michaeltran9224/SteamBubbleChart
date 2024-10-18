@@ -1,5 +1,9 @@
 # Flask Backend Setup
 
+## Venv activation:
+
+venv\Scripts\activate
+
 ## Create .env file with the following variables:
 
 STEAM_API_KEY={insert your Steam API key here}

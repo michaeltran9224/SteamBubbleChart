@@ -1,5 +1,5 @@
 services:
-  web:
+  frontend:
     stdin_open: true
     build:
       context: .
@@ -7,5 +7,10 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - /app/node_modules
-      - .:/app
+      - /opt/app/node_modules
+      - .:/opt/app
+    networks:
+      - some-net
+networks:
+  some-net:
+    driver: bridge

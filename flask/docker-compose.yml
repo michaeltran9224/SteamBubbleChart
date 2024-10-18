@@ -12,3 +12,8 @@ services:
       - .env # Load environment variables from the .env file
       - .flaskenv
     command: flask run --host=0.0.0.0 --reload --debug
+    networks:
+      - frontend_some-net
+networks:
+  frontend_some-net:
+    external: true
