@@ -9,7 +9,7 @@ load_dotenv()
 
 app = Flask(__name__)
 app.config.from_object(Config)
-app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{os.getenv('SQL_USER')}:{os.getenv('MYSQL_ROOT_PASSWORD')}@mysql:3306/{os.getenv('SQL_NAME')}"
+app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{os.getenv('SQL_USER')}:{os.getenv('SQL_ROOT_PASSWORD')}@mysql:3306/{os.getenv('SQL_NAME')}"
 
 
 CORS(app)
