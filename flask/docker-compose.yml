@@ -14,6 +14,26 @@ services:
     command: flask run --host=0.0.0.0 --reload --debug
     networks:
       - frontend_some-net
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${SQL_ROOT_PASSWORD}  # Specify the root password
+      MYSQL_DATABASE: ${SQL_NAME}  # Create the database with the specified name
+    ports:
+      - "3306:3306"  # Expose MySQL port
+    networks:
+      - frontend_some-net
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
 networks:
   frontend_some-net:
     external: true

@@ -1,8 +1,10 @@
 from flask import render_template, request, jsonify, Flask
 from app import app
+from app.database import Post, db
 import os
 from dotenv import load_dotenv
 import requests
+from datetime import datetime
 
 load_dotenv()
 #api key from .env
