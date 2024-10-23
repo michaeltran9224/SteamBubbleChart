@@ -2,7 +2,7 @@
 .flaskenv
 
 __pycache__/
-*.pyc
+*.py[cod]
 
 *.log
 
