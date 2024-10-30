@@ -8,6 +8,7 @@ class Post(db.Model):
     username = db.Column(db.String(16), nullable=False)
     body = db.Column(db.Text, nullable=False)
     date = db.Column(db.DateTime, nullable=False)
+    profileID = db.Column(db.Integer, nullable=False)
 
 def create_database(app):
     with app.app_context():
@@ -19,7 +20,8 @@ def create_database(app):
                 postID=1,  # Use an integer ID
                 body="This is the content of my first post.",
                 username="Michael",
-                date=datetime.now(timezone.utc)  # Use timezone-aware datetime
+                date=datetime.now(timezone.utc),  # Use timezone-aware datetime
+                profileID="76561198017166729"
             )
             db.session.add(new_post)  # Add the post to the session
             db.session.commit()  # Commit the session to save changes
