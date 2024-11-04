@@ -1,8 +1,10 @@
 from flask import render_template, request, jsonify, Flask
 from app import app
+from app.database import Post, db
 import os
 from dotenv import load_dotenv
 import requests
+from datetime import datetime,timezone
 
 load_dotenv()
 #api key from .env
@@ -59,7 +61,7 @@ def getSteamUserGames(steamId):
     else:
         print(f"Error response from Steam API: {response.status_code}, {response.text}")
         return jsonify({'error': 'Failed to fetch data from Steam API'}), 500
-        
+
 # REACT: fetch(`/steam/user/games/${steamId}`)
     #games is a list btw
 
@@ -119,6 +121,70 @@ def getSteamUser(steamId):
         print(f"Error response from Steam API: {response.status_code}, {response.text}")
         return jsonify({'error': 'Failed to fetch data from Steam API'}), 500
 
+   #return jsonify({'title': 'Home', 'user': user}) for react
+
+    
+@app.route('/posts', methods=['GET'])
+def get_posts():
+    posts = Post.query.all()  # Retrieve all posts from the database
+    post_list = [
+        {
+            'postID': post.postID,
+            'username': post.username,
+            'body': post.body,
+            'date': post.date.isoformat(),  # Format the datetime for JSON
+            'profileID' : post.profileID
+        }
+        for post in posts
+    ]
+    return jsonify(post_list)
+
+# Route to create a new post
+@app.route('/posts', methods=['POST'])
+def create_post():
+    data = request.get_json()  # Get JSON data from request
+    username = data.get('username')
+    body = data.get('body')
+    profileID = data.get('profileID')
+
+    if not username or not body:
+        return jsonify({'error': 'Username and body are required'}), 400
+
+    # Create a new post
+    new_post = Post(
+        username=username,
+        body=body,
+        date=datetime.now(timezone.utc),  # Use timezone-aware datetime
+        profileID=profileID
+    )
+    db.session.add(new_post)  # Add the new post to the session
+    db.session.commit()  # Commit to save changes in the database
+
+    return jsonify({'message': 'Post created successfully'}), 201
 
 
-    #return jsonify({'title': 'Home', 'user': user}) for react
+@app.route('/posts/<int:profileID>', methods=['GET'])
+def get_posts_by_profile(profileID):
+    # Query the Post model for all posts with the given profileID
+    posts = Post.query.filter_by(profileID=profileID).all()
+
+    if posts:
+        # Convert posts to a list of dictionaries to jsonify
+        post_list = [
+            {
+                'postID': post.postID,
+                'username': post.username,
+                'body': post.body,
+                'date': post.date,
+                'profileID': post.profileID
+            }
+            for post in posts
+        ]
+        return jsonify({'posts': post_list})
+    else:
+        # Return a 404 if no posts are found for the profileID
+        return jsonify({'error': 'No posts found for this profile ID'}), 404
+        
+
+
+
