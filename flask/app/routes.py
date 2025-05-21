@@ -29,38 +29,52 @@ def index():
 
 @app.route('/steam/user/games/<steamId>', methods=['GET'])
 def getSteamUserGames(steamId):
+    print(f"Incoming request for Steam ID: {steamId}")
+
     url = f"https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key={STEAM_API_KEY}&steamid={steamId}&include_appinfo=true&include_played_free_games=true&include_free_sub=true&include_extended_appinfo=false&format=json"
+    print(f"Requesting URL: {url}")
 
-    response = requests.get(url)
+    try:
+        response = requests.get(url)
+        print(f"Steam API response status: {response.status_code}")
 
-    if response.status_code == 200:
-        data = response.json()
-        games = data.get('response', {}).get('games', [])
+        if response.status_code == 200:
+            data = response.json()
+            print(f"Steam API response JSON: {data}")
 
-        if games:
+            games = data.get('response', {}).get('games', [])
+            if not games:
+                print("No games found in Steam API response.")
+                return jsonify({'games': []}), 200  
+
             game_list = []
             for game in games:
-                app_id = game.get('appid')
-                name = game.get('name')
-                playtime_forever = game.get('playtime_forever', 0)
-                img_icon_url = game.get('img_icon_url')
-                image_url = f"http://media.steampowered.com/steamcommunity/public/images/apps/{app_id}/{img_icon_url}.jpg"
+                try:
+                    app_id = game.get('appid')
+                    name = game.get('name')
+                    playtime_forever = game.get('playtime_forever', 0)
+                    img_icon_url = game.get('img_icon_url')
+                    image_url = f"http://media.steampowered.com/steamcommunity/public/images/apps/{app_id}/{img_icon_url}.jpg"
 
-                game_info = {
-                    'app_id': app_id,
-                    'name': name,
-                    'playtime_forever': playtime_forever,
-                    'img_icon_url': image_url
-                }
+                    game_info = {
+                        'app_id': app_id,
+                        'name': name,
+                        'playtime_forever': playtime_forever,
+                        'img_icon_url': image_url
+                    }
 
-                game_list.append(game_info)
+                    game_list.append(game_info)
+                except Exception as e:
+                    print(f"Error processing a game: {e}")
 
             return jsonify({'games': game_list})
         else:
-            return jsonify({'error': 'No games found for this Steam ID'}), 404
-    else:
-        print(f"Error response from Steam API: {response.status_code}, {response.text}")
-        return jsonify({'error': 'Failed to fetch data from Steam API'}), 500
+            print(f"Steam API failed: {response.status_code}, {response.text}")
+            return jsonify({'error': 'Failed to fetch data from Steam API'}), 500
+
+    except Exception as e:
+        print(f"Exception in getSteamUserGames: {e}")
+        return jsonify({'error': 'Internal server error'}), 500
 
 # REACT: fetch(`/steam/user/games/${steamId}`)
     #games is a list btw
@@ -77,9 +91,9 @@ def getSteamUser(steamId):
         players = data.get('response', {}).get('players', [])
 
         if players:
-            player = players[0]  # Get the first (and only) player
+            player = players[0]  # get the first (and only) player
             
-            # set info to vars
+            # set api gathered info to variables
             steamId = player.get('steamid')
             personaName = player.get('personaname')
             profileUrl = player.get('profileurl')
@@ -87,7 +101,7 @@ def getSteamUser(steamId):
             realName = player.get('realname')
             lastLogoff = player.get('lastlogoff')
 
-            #will return none if not set by user
+            # optional variables, will return none if not set by user
             locCountryCode = player.get('loccountrycode')
             locStateCode = player.get('locstatecode')
             locCityId = player.get('loccityid')
@@ -103,7 +117,7 @@ def getSteamUser(steamId):
                 'last_logoff': lastLogoff
             }
 
-            #conditional dictionary addition
+            # conditional dictionary addition since these are not always input from steam user
 
             if locCountryCode:
                 player_info['country_code'] = locCountryCode

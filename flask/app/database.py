@@ -8,7 +8,7 @@ class Post(db.Model):
     username = db.Column(db.String(16), nullable=False)
     body = db.Column(db.Text, nullable=False)
     date = db.Column(db.DateTime, nullable=False)
-    profileID = db.Column(db.Integer, nullable=False)
+    profileID = db.Column(db.String(20), nullable=False)
 
 def create_database(app):
     with app.app_context():

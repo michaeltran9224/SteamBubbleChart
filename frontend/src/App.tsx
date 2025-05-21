@@ -4,15 +4,18 @@ import { RouterProvider } from "react-router-dom";
 import { router } from "./constants/router/router";
 
 function App() {
-  const steamId = '76561198112529535';
+  const steamId = '76561198017166729';
 
-  useEffect(() => { // temp for testing
-    fetch(`/steam/user/games/${steamId}`).then(res => {
-      console.log(res);
-      res.json();
-    }).then(data => {
-      console.log(data);
-    }).catch(error => console.log(error));
+  useEffect(() => {
+    fetch(`/steam/user/games/${steamId}`)
+  .then(res => {
+    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+    return res.json();
+  })
+  .then(data => {
+    console.log("Fetched data:", data);
+  })
+  .catch(error => console.error("Error fetching games:", error));
   }, []);
 
   return (
