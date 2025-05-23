@@ -10,7 +10,7 @@ services:
       - /opt/app/node_modules
       - .:/opt/app
     networks:
-      - some-net
+      - frontend_some-net
 networks:
-  some-net:
-    driver: bridge
+  frontend_some-net:
+    external: true
