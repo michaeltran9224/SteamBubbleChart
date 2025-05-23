@@ -1,28 +1,28 @@
-import { useEffect } from 'react'
 import { RouterProvider } from "react-router-dom";
-
+import { useEffect } from "react";
 import { router } from "./constants/router/router";
 
 function App() {
-  const steamId = '76561198017166729';
+  const steamId = "76561198112529535";
 
   useEffect(() => {
+    // temp for testing
     fetch(`/steam/user/games/${steamId}`)
-  .then(res => {
-    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-    return res.json();
-  })
-  .then(data => {
-    console.log("Fetched data:", data);
-  })
-  .catch(error => console.error("Error fetching games:", error));
+      .then((res) => {
+        console.log(res);
+        res.json();
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => console.log(error));
   }, []);
 
   return (
     <div className="App">
       <RouterProvider router={router} />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
