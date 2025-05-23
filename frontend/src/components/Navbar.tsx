@@ -44,21 +44,8 @@ export default function Navbar() {
       <NavigationMenuList className="flex">
         <NavigationMenuItem>
           <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-            Homedfsadfasdfasdfasfdasdfasfdsa
+            Home
           </NavigationMenuLink>
-        </NavigationMenuItem>
-        <NavigationMenuItem className="relative">
-          <NavigationMenuTrigger>Contact</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <div className="grid gap-1 p-2">
-              <NavigationMenuLink className="" asChild>
-                <Link to="/">Michael Tran</Link>
-              </NavigationMenuLink>
-              <NavigationMenuLink className="" asChild>
-                <Link to="/">Sarah Kwon</Link>
-              </NavigationMenuLink>
-            </div>
-          </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem className="">
           <Form {...form}>
