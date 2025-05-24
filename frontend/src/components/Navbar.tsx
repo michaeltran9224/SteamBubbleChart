@@ -18,6 +18,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -40,38 +42,47 @@ export default function Navbar() {
   }
 
   return (
-    <NavigationMenu className="relative">
-      <NavigationMenuList className="flex">
-        <NavigationMenuItem>
-          <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-            Home
-          </NavigationMenuLink>
-        </NavigationMenuItem>
-        <NavigationMenuItem className="">
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="flex flex-row gap-2"
-            >
-              <FormField
-                control={form.control}
-                name="username"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input placeholder="Steam ID" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button className="justify-end" type="submit">
-                Submit
-              </Button>
-            </form>
-          </Form>
-        </NavigationMenuItem>
-      </NavigationMenuList>
-    </NavigationMenu>
+    <nav className="fixed top-0 left-0 w-full flex items-center justify-between px-6 py-3 bg-zinc-800 shadow-sm">
+      <Button variant="secondary" size="icon" className="p-0">
+        <Link to="/">
+          <img src="images/steam-logo-black-transparent.png" alt="Steam Logo" />
+        </Link>
+      </Button>
+
+      <NavigationMenu>
+        <NavigationMenuList>
+          <NavigationMenuItem>
+            <NavigationMenuTrigger>Dropdown</NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <NavigationMenuLink>hello!</NavigationMenuLink>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
+
+      {/* Right side: custom elements like a form */}
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-row gap-2"
+        >
+          <FormField
+            control={form.control}
+            name="username"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input placeholder="Steam ID" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button variant="ghost" className="justify-end" type="submit">
+            Submit
+          </Button>
+        </form>
+      </Form>
+    </nav>
   );
 }
