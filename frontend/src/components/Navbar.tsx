@@ -52,15 +52,23 @@ export default function Navbar() {
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
-            <NavigationMenuTrigger>Dropdown</NavigationMenuTrigger>
+            <NavigationMenuTrigger>Different Pages?</NavigationMenuTrigger>
             <NavigationMenuContent>
-              <NavigationMenuLink>hello!</NavigationMenuLink>
+              <Link to="/">
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  Michael
+                </NavigationMenuLink>
+              </Link>
+              <Link to="/">
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  Sarah
+                </NavigationMenuLink>
+              </Link>
             </NavigationMenuContent>
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
 
-      {/* Right side: custom elements like a form */}
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}

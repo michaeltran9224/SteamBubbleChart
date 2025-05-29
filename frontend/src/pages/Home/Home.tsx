@@ -35,9 +35,6 @@ function Home() {
 
   return (
     <div className="w-screen">
-      <div className="fixed top-0 left-0 right-0 bg-zinc-800">
-        <Navbar />
-      </div>
       <div className="place-items-center">
         <div className="">
           <h1>STEAM BUBBLE CHART</h1>
