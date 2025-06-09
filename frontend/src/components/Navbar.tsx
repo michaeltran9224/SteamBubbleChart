@@ -43,7 +43,7 @@ export default function Navbar() {
 
   return (
     <nav className="fixed top-0 left-0 w-full flex items-center justify-between px-6 py-3 bg-zinc-800 shadow-sm">
-      <Button variant="secondary" size="icon" className="p-0">
+      <Button variant="ghost" size="icon" className="p-0">
         <Link to="/">
           <img src="images/steam-logo-black-transparent.png" alt="Steam Logo" />
         </Link>
